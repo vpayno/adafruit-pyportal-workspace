@@ -13,3 +13,4 @@ CHANGELOG.md             @vpayno
 # tool configuration files
 .gitignore               @vpayno
 cliff.toml               @vpayno
+.yamllint.yaml           @vpayno
