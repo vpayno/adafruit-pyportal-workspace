@@ -70,7 +70,6 @@ Aditional Boards Manager URLs:
 
 - [rp2040](https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json)
 
-
 Install Arduino libraries:
 
 ```bash { background=false category=setup closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-install-libraries promptEnv=true terminalRows=10 }
@@ -86,7 +85,7 @@ Compile and export the the bin, elf and uf2 files to `./build/rp2040.rp2040.adaf
 
 set -e
 
-# all commands are relative to the /arduino directory
+# all paths are relative to the /arduino directory
 
 stty cols 80
 stty rows 25
@@ -105,7 +104,7 @@ printf "\n"
 ../tool-compile
 ```
 
-Before you can update the board, you need to reboot the Arduino KB2040 into update mode by
+Before you can update the board, you need to reboot the Adafruit KB2040 into update mode by
 
 - holding the `Boot` button
 - pressing the `Reset` button
