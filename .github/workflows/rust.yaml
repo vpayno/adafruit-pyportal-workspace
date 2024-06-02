@@ -1,0 +1,120 @@
+---
+name: rust
+
+"on":
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  rust:
+    runs-on: ubuntu-latest
+    container:
+      image: debian:latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read  # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    steps:
+      - name: add-missing-tools
+        run: |
+          apt update
+          apt install -y xz-utils liblzma-dev zstd libzstd-dev bzip2 libbz2-dev bzip3 libbzip3-dev zip unzip gzip
+          apt install -y curl libcurl4-openssl-dev wget
+          apt install -y sudo
+      - name: git checkout
+        uses: actions/checkout@v4
+      - name: Install dependencies via apt
+        run: ./.github/citools/debian-install-deps.sh
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: "16"
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: default  # https://rust-lang.github.io/rustup/concepts/profiles.html
+          toolchain: stable
+          components: clippy, llvm-tools-preview, rust-docs, rustfmt  # https://rust-lang.github.io/rustup/concepts/components.html
+          override: true
+      - name: Rust Version
+        run: |
+          {
+            printf "\`\`\`text\n"
+            rustc --version
+            printf "\`\`\`\n"
+          } |& tee -a "${GITHUB_STEP_SUMMARY}"
+      - name: Install sccache
+        run: cargo install sccache
+      - name: Install required cargo
+        env:
+          RUSTC_WRAPPER: "sccache"
+        run: cargo install clippy-sarif sarif-fmt cargo-llvm-cov strip-ansi-cli
+      - name: Cargo Clippy - sarif upload
+        env:
+          RUSTC_WRAPPER: "sccache"
+        run: |
+          ./.github/citools/debian-install-deps.sh
+          cargo clippy --all-features --message-format=json | clippy-sarif | tee rust-clippy-results.sarif | sarif-fmt
+      - name: Upload analysis results to GitHub
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: rust-clippy-results.sarif
+          wait-for-processing: true
+      - name: Cargo Clippy
+        env:
+          RUSTC_WRAPPER: "sccache"
+        run: |
+          {
+            printf "\`\`\`text\n"
+            cargo clippy --all-features |& strip-ansi || true
+            printf "\`\`\`\n"
+          } |& tee -a "${GITHUB_STEP_SUMMARY}"
+      - name: Cargo Check
+        env:
+          RUSTC_WRAPPER: "sccache"
+        run: |
+          {
+            printf "\`\`\`text\n"
+            cargo check --verbose |& strip-ansi || true
+            printf "\`\`\`\n"
+          } |& tee -a "${GITHUB_STEP_SUMMARY}"
+      - name: Cargo Tests
+        env:
+          RUSTC_WRAPPER: "sccache"
+        continue-on-error: true
+        run: |
+          {
+            printf "\`\`\`text\n"
+            cargo test --verbose |& strip-ansi
+            printf "\`\`\`\n"
+          } |& tee -a "${GITHUB_STEP_SUMMARY}"
+      - name: Cargo Coverage
+        env:
+          RUSTC_WRAPPER: "sccache"
+        continue-on-error: true
+        run: |
+          cargo llvm-cov clean --workspace
+          cargo test
+          cargo llvm-cov --no-clean
+          cargo llvm-cov report --lcov --output-path lcov.info
+          {
+            printf "\`\`\`text\n"
+            lcov --list lcov.info
+            printf "\n"
+            lcov --summary lcov.info
+            printf "\`\`\`\n"
+          } |& tee -a "${GITHUB_STEP_SUMMARY}"
+      - name: Cargo build
+        env:
+          RUSTC_WRAPPER: "sccache"
+        run: cargo build --verbose
