@@ -203,6 +203,9 @@ All the projects also share the top level `/memory.x` file and
 
 ### Hello World
 
+Added the two examples from [rp-hal-boards](https://github.com/rp-rs/rp-hal-boards/) to help with tooling testing.
+The lack of a serial console isn't great for debugging.
+
 #### `adafruit_kb2040_bare_minimum`
 
 Bare minimum program that does nothing.
