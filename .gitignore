@@ -30,3 +30,5 @@ Cargo.lock
 .pdm-python
 .venv
 .ccls-cache
+
+# Arduino
