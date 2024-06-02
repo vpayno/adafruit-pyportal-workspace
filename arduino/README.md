@@ -70,6 +70,13 @@ Aditional Boards Manager URLs:
 
 - [rp2040](https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json)
 
+
+Install Arduino libraries:
+
+```bash { background=false category=setup closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-install-libraries promptEnv=true terminalRows=10 }
+arduino-cli lib install "Adafruit NeoPixel"
+```
+
 ## Arduino CLI commands
 
 Compile and export the the bin, elf and uf2 files to `./build/rp2040.rp2040.adafruit_kb2040/`.
