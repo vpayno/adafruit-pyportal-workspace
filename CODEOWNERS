@@ -1,16 +1,17 @@
 # access files
-CODEOWNERS               @vpayno
+CODEOWNERS                @vpayno
 
 # CI files
-/.github/                @vpayno
-/.gitlab-ci.yaml~        @vpayno
+/.github/                 @vpayno
+/.gitlab-ci.yaml~         @vpayno
 
 # sensitive documentation
-LICENSE                  @vpayno
-README.md                @vpayno
-CHANGELOG.md             @vpayno
+LICENSE                   @vpayno
+README.md                 @vpayno
+CHANGELOG.md              @vpayno
 
 # tool configuration files
-.gitignore               @vpayno
-cliff.toml               @vpayno
-.yamllint.yaml           @vpayno
+.gitignore                @vpayno
+cliff.toml                @vpayno
+.yamllint.yaml            @vpayno
+.markdownlint.yaml        @vpayno
