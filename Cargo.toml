@@ -1,3 +1,23 @@
 [workspace]
 resolver = "2"
-members = []
+members = ["rust/helloworld"]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+
+[workspace.dependencies]
+cortex-m-rt = "0.7.3"
+embedded-hal = "1.0.0"
+fugit = "0.3.7"
+heapless = "0.7.17"
+nb = "1.1"
+panic-halt= "0.2.0"
+rp2040-boot2 = "0.3.0"
+rp2040-hal = "0.10.1"
+smart-leds = "0.3.0"
+usb-device = "0.3.2"
+usbd-serial = "0.2.2"
+ws2812-pio = "0.8.0"

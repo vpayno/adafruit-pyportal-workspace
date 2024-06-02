@@ -78,3 +78,9 @@ All the projects also share the top level `/memory.x` file and
 `.cargo/config.toml` files.
 
 ## Experiments
+
+### Hello World
+
+#### `adafruit_kb2040_bare_minimum`
+
+Bare minimum program that does nothing.
