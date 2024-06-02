@@ -24,3 +24,9 @@ Cargo.lock
 *.pdb
 
 # TinyGo
+
+# Python/MicroPython
+.python-version
+.pdm-python
+.venv
+.ccls-cache
