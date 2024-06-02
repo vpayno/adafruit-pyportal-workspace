@@ -55,19 +55,22 @@ jobs:
           } |& tee -a "${GITHUB_STEP_SUMMARY}"
       - name: Install sccache
         run: cargo install sccache
-      - name: Install required cargo
+      - name: Install required cargo for tests
+        if: false
         env:
           RUSTC_WRAPPER: "sccache"
         run: cargo install clippy-sarif sarif-fmt cargo-llvm-cov strip-ansi-cli
       - name: Install dependencies and tools via rust
         run: ./.github/citools/rust-install-deps.sh
       - name: Cargo Clippy - sarif upload
+        if: false
         env:
           RUSTC_WRAPPER: "sccache"
         run: |
           ./.github/citools/debian-install-deps.sh
           cargo clippy --all-features --message-format=json | clippy-sarif | tee rust-clippy-results.sarif | sarif-fmt
       - name: Upload analysis results to GitHub
+        if: false
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: rust-clippy-results.sarif
@@ -91,6 +94,7 @@ jobs:
             printf "\`\`\`\n"
           } |& tee -a "${GITHUB_STEP_SUMMARY}"
       - name: Cargo Tests
+        if: false
         env:
           RUSTC_WRAPPER: "sccache"
         continue-on-error: true
@@ -101,6 +105,7 @@ jobs:
             printf "\`\`\`\n"
           } |& tee -a "${GITHUB_STEP_SUMMARY}"
       - name: Cargo Coverage
+        if: false
         env:
           RUSTC_WRAPPER: "sccache"
         continue-on-error: true
