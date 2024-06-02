@@ -7,3 +7,6 @@ CODEOWNERS        @vpayno
 # sensitive documentation
 LICENSE           @vpayno
 README.md         @vpayno
+
+# tool configuration files
+.gitignore        @vpayno
