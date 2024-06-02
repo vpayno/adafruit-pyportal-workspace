@@ -1,12 +1,14 @@
 # access files
-CODEOWNERS        @vpayno
+CODEOWNERS          @vpayno
 
 # CI files
-/.github/         @vpayno
+/.github/           @vpayno
 
 # sensitive documentation
-LICENSE           @vpayno
-README.md         @vpayno
+LICENSE             @vpayno
+README.md           @vpayno
+CHANGELOG.md        @vpayno
 
 # tool configuration files
-.gitignore        @vpayno
+.gitignore          @vpayno
+cliff.toml          @vpayno
