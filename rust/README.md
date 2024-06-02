@@ -149,7 +149,7 @@ declare TD
 
 gum format "# Please choose a Rust project to deploy:"
 printf "\n"
-PF="$(gum choose $(file ../target/thumbv6m-none-eabi/release/*/* | cut -f1 -d: | grep -E ".uf2$"))"
+PF="$(gum choose $(ls ../target/thumbv6m-none-eabi/release/*/* | grep -E ".uf2$"))"
 printf "\n"
 
 gum format "# Please choose the deploy target directory:"
@@ -160,6 +160,34 @@ printf "\n"
 echo Running: cp -v "${PF}" "${TD}"
 cp -v "${PF}" "${TD}"
 echo done.
+```
+
+Browse projects:
+
+```bash { background=false category=deploy closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=rust-cli-browse promptEnv=true terminalRows=25 }
+# choose a rust project and browse it
+
+set -e
+
+stty cols 80
+stty rows 25
+
+# all paths are relative to the /rust directory
+
+declare SD
+printf "Choose a project directory to browse:\n"
+SD="$(gum choose $(find ./*/examples/ -maxdepth 1 -type d))"
+printf "\n"
+
+printf "Projects under %s:\n" "${SD}"
+ls -lhv "${SD}"
+printf "\n"
+
+printf "Release binaries under %s:\n" ../target/thumbv6m-none-eabi/release/examples/
+ls ../target/thumbv6m-none-eabi/release/examples/
+printf "\n"
+file ../target/thumbv6m-none-eabi/release/examples/*
+printf "\n"
 ```
 
 ## Rust Workspace
