@@ -59,6 +59,8 @@ jobs:
         env:
           RUSTC_WRAPPER: "sccache"
         run: cargo install clippy-sarif sarif-fmt cargo-llvm-cov strip-ansi-cli
+      - name: Install dependencies and tools via rust
+        run: ./.github/citools/rust-install-deps.sh
       - name: Cargo Clippy - sarif upload
         env:
           RUSTC_WRAPPER: "sccache"
