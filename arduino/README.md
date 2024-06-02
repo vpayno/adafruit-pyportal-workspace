@@ -70,4 +70,80 @@ Aditional Boards Manager URLs:
 
 - [rp2040](https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json)
 
+## Arduino CLI commands
+
+Compile and export the the bin, elf and uf2 files to `./build/rp2040.rp2040.adafruit_kb2040/`.
+
+```bash { background=false category=build closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-cli-compile promptEnv=true terminalRows=25 }
+# choose an arduino project and build it
+
+set -e
+
+# all commands are relative to the /arduino directory
+
+stty cols 80
+stty rows 25
+
+declare WD
+
+gum format "# Please choose an Arduino project to build:"
+printf "\n"
+WD="$(gum choose $(find ./ -maxdepth 1 -type d | grep -v -E '^[.][/]$'))"
+
+cd "${WD}" || exit 1
+pwd
+ls
+printf "\n"
+
+../tool-compile
+```
+
+Before you can update the board, you need to reboot the Arduino KB2040 into update mode by
+
+- holding the `Boot` button
+- pressing the `Reset` button
+- let go of the `Boot` button
+- wait for the `RPI-RP2` drive to show up
+
+```bash { background=false category=deploy closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-cli-upload promptEnv=true terminalRows=25 }
+# choose an arduino project and deploy it
+
+if [[ ! -d /mnt/chromeos/removable/RPI-RP2/ ]]; then
+    printf "ERROR: You need to share the RPI-RP2 volume with Linux\n"
+    exit 1
+fi
+
+if [[ ! -f /mnt/chromeos/removable/RPI-RP2/INFO_UF2.TXT ]]; then
+    printf "ERROR: Board isn't in UF2 update mode\n"
+    exit 1
+fi
+
+set -e
+
+# all commands are relative to the /arduino directory
+
+stty cols 80
+stty rows 25
+
+declare WD
+declare TD
+
+gum format "# Please choose an Arduino project to deploy:"
+printf "\n"
+WD="$(gum choose $(find ./ -maxdepth 1 -type d | grep -v -E '^[.][/]$'))"
+
+gum format "# Please choose the deploy target directory:"
+printf "\n"
+TD="$(gum choose $(find /mnt/chromeos/removable/ -maxdepth 1 -type d | grep -v -E '^/mnt/chromeos/removable/$'))"
+
+cd "${WD}" || exit 1
+pwd
+ls
+printf "\n"
+
+echo Running: cp -v ./build/rp2040.rp2040.adafruit_kb2040/*uf2 "${TD}"
+cp -v ./build/rp2040.rp2040.adafruit_kb2040/*uf2 "${TD}"
+echo done.
+```
+
 ## Experiments
