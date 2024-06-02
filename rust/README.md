@@ -68,6 +68,100 @@ sudo lsscsi
 printf "\n"
 ```
 
+## Rust CLI commands
+
+Compile and export the the elf and uf2 files to `./target/thumbv6m-none-eabi/release/`.
+
+```bash { background=false category=build closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=rust-cli-compile promptEnv=true terminalRows=25 }
+# choose an rust project and build it
+
+set -e
+
+# all paths are relative to the /rust directory
+
+stty cols 80
+stty rows 25
+
+declare WP
+declare WE
+declare PN
+
+gum format "# Please choose a Rust project to build:"
+printf "\n"
+WP="$(gum choose $(find ./*/examples/ -maxdepth 1 -type f -name '*[.]rs';))"
+printf "\n"
+
+# project name
+PN="${WP#*/}"
+# example name (optional)
+WE="${WP##*/}"; WE="${WE%.rs}"
+
+echo Running: cargo clean
+time cargo clean
+printf "\n"
+
+echo Running: cargo build --release --example "${WE}"
+time cargo build --release --example "${WE}"
+printf "\n"
+
+declare ELF_FILE
+ELF_FILE=$(file ../target/thumbv6m-none-eabi/release/*/* | grep ELF | cut -f1 -d: | grep -E "/${WE}$")
+echo Running: elf2uf2-rs "${ELF_FILE}{,.uf2}"
+time elf2uf2-rs "${ELF_FILE}"{,.uf2}
+printf "\n"
+
+file "${ELF_FILE}"{,.uf2}
+printf "\n"
+
+ls -lhv "${ELF_FILE}"{,.uf2}
+printf "\n"
+```
+
+Before you can update the board, you need to reboot the Adafruit KB2040 into update mode by
+
+- holding the `Boot` button
+- pressing the `Reset` button
+- let go of the `Boot` button
+- wait for the `RPI-RP2` drive to show up
+
+```bash { background=false category=deploy closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=rust-cli-upload promptEnv=true terminalRows=25 }
+# choose a rust project and deploy it
+
+if [[ ! -d /mnt/chromeos/removable/RPI-RP2/ ]]; then
+    printf "ERROR: You need to share the RPI-RP2 volume with Linux\n"
+    exit 1
+fi
+
+if [[ ! -f /mnt/chromeos/removable/RPI-RP2/INFO_UF2.TXT ]]; then
+    printf "ERROR: Board isn't in UF2 update mode\n"
+    exit 1
+fi
+
+set -e
+
+# all paths are relative to the /rust directory
+
+stty cols 80
+stty rows 25
+
+declare PF
+declare TD
+
+gum format "# Please choose a Rust project to deploy:"
+printf "\n"
+PF="$(gum choose $(file ../target/thumbv6m-none-eabi/release/*/* | cut -f1 -d: | grep -E ".uf2$"))"
+printf "\n"
+
+gum format "# Please choose the deploy target directory:"
+printf "\n"
+TD="$(gum choose $(find /mnt/chromeos/removable/ -maxdepth 1 -type d | grep -v -E '^/mnt/chromeos/removable/$'))"
+printf "\n"
+
+echo Running: cp -v "${PF}" "${TD}"
+cp -v "${PF}" "${TD}"
+echo done.
+```
+
 ## Rust Workspace
 
 When adding dependencies, if they are or may be shared between experiments, add
