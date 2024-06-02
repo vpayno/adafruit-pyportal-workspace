@@ -68,4 +68,13 @@ sudo lsscsi
 printf "\n"
 ```
 
+## Rust Workspace
+
+When adding dependencies, if they are or may be shared between experiments, add
+them from the top level directory with the Cargo workspace `Cargo.toml` file
+first before adding it to the project `Cargo.toml`.
+
+All the projects also share the top level `/memory.x` file and
+`.cargo/config.toml` files.
+
 ## Experiments
