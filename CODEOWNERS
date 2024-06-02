@@ -1,6 +1,9 @@
 # access files
 CODEOWNERS        @vpayno
 
+# CI files
+/.github/         @vpayno
+
 # sensitive documentation
 LICENSE           @vpayno
 README.md         @vpayno
