@@ -153,3 +153,7 @@ echo done.
 ```
 
 ## Experiments
+
+### Hello World
+
+This experiment uses the example Adafruit KB2040 Neopixel blink sketch.
