@@ -66,9 +66,14 @@ EOF
 chmod -v a+x "${HOME}/bin/arduino-ide"
 ```
 
-Aditional Boards Manager URLs:
+Install the Arduino rp2040 boards package (also manually add it to your global IDE and CLI configs).
 
-- [rp2040](https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json)
+```bash { background=false category=setup closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-install-board promptEnv=true terminalRows=10 }
+printf "board_manager:\n  additional_urls:\n    - %s\n" "https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json" | tee .arduino-cli.yaml
+arduino-cli core update-index --config-file .arduino-cli.yaml
+arduino-cli core install rp2040:rp2040 --config-file .arduino-cli.yaml
+arduino-cli board details --fqbn rp2040:rp2040:adafruit_kb2040  # not a device query
+```
 
 Install Arduino libraries:
 
