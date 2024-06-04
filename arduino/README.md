@@ -6,7 +6,7 @@ Journaling [Adafruit KB2040 Arduino](https://learn.adafruit.com/adafruit-kb2040/
 
 Install [Arduino](https://docs.arduino.cc/software/ide/) tooling dependencies.
 
-```bash { background=false category=setup closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-install-dependencies promptEnv=true terminalRows=10 }
+```bash { background=false category=setup-arduino closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-install-dependencies promptEnv=true terminalRows=10 }
 # install arduino tooling dependencies
 
 set -e
@@ -28,7 +28,7 @@ printf "\n"
 
 Install the Arduino CLI:
 
-```bash { background=false category=setup closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-install-cli promptEnv=true terminalRows=10 }
+```bash { background=false category=setup-arduino closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-install-cli promptEnv=true terminalRows=10 }
 # install arduino cli
 if ! go install github.com/arduino/arduino-cli@latest; then
     curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | BINDIR="${HOME}/bin" sh
@@ -38,7 +38,7 @@ fi
 
 Install the Arduino IDE:
 
-```bash { background=false category=setup closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-install-ide promptEnv=true terminalRows=10 }
+```bash { background=false category=setup-arduino closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-install-ide promptEnv=true terminalRows=10 }
 # install arduino ide
 set -e
 
@@ -68,7 +68,7 @@ chmod -v a+x "${HOME}/bin/arduino-ide"
 
 Install the Arduino rp2040 boards package (also manually add it to your global IDE and CLI configs).
 
-```bash { background=false category=setup closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-install-board promptEnv=true terminalRows=10 }
+```bash { background=false category=setup-arduino closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-install-board promptEnv=true terminalRows=10 }
 printf "board_manager:\n  additional_urls:\n    - %s\n" "https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json" | tee .arduino-cli.yaml
 arduino-cli core update-index --config-file .arduino-cli.yaml
 arduino-cli core install rp2040:rp2040 --config-file .arduino-cli.yaml
@@ -77,7 +77,7 @@ arduino-cli board details --fqbn rp2040:rp2040:adafruit_kb2040  # not a device q
 
 Install Arduino libraries:
 
-```bash { background=false category=setup closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-install-libraries promptEnv=true terminalRows=10 }
+```bash { background=false category=setup-arduino closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-install-libraries promptEnv=true terminalRows=10 }
 arduino-cli lib install "Adafruit NeoPixel"
 ```
 
@@ -85,7 +85,7 @@ arduino-cli lib install "Adafruit NeoPixel"
 
 Compile and export the the bin, elf and uf2 files to `./build/rp2040.rp2040.adafruit_kb2040/`.
 
-```bash { background=false category=build closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-cli-compile promptEnv=true terminalRows=25 }
+```bash { background=false category=build-arduino closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-cli-compile promptEnv=true terminalRows=25 }
 # choose an arduino project and build it
 
 set -e
@@ -116,7 +116,7 @@ Before you can update the board, you need to reboot the Adafruit KB2040 into upd
 - let go of the `Boot` button
 - wait for the `RPI-RP2` drive to show up
 
-```bash { background=false category=deploy closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-cli-upload promptEnv=true terminalRows=25 }
+```bash { background=false category=deploy-arduino closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-cli-upload promptEnv=true terminalRows=25 }
 # choose an arduino project and deploy it
 
 if [[ ! -d /mnt/chromeos/removable/RPI-RP2/ ]]; then
