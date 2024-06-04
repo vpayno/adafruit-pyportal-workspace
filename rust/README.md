@@ -8,7 +8,7 @@ The RP2024 uses a `ARM Cortex-M0+` processor.
 
 Install Rust tooling dependencies.
 
-```bash { background=false category=setup closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=rust-install-dependencies promptEnv=true terminalRows=10 }
+```bash { background=false category=setup-rust closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=rust-install-dependencies promptEnv=true terminalRows=10 }
 # install rust tooling dependencies
 
 set -e
@@ -72,7 +72,7 @@ printf "\n"
 
 Compile and export the the elf and uf2 files to `./target/thumbv6m-none-eabi/release/`.
 
-```bash { background=false category=build closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=rust-cli-compile promptEnv=true terminalRows=25 }
+```bash { background=false category=build-rust closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=rust-cli-compile promptEnv=true terminalRows=25 }
 # choose an rust project and build it
 
 set -e
@@ -124,7 +124,7 @@ Before you can update the board, you need to reboot the Adafruit KB2040 into upd
 - let go of the `Boot` button
 - wait for the `RPI-RP2` drive to show up
 
-```bash { background=false category=deploy closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=rust-cli-upload promptEnv=true terminalRows=25 }
+```bash { background=false category=deploy-rust closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=rust-cli-upload promptEnv=true terminalRows=25 }
 # choose a rust project and deploy it
 
 if [[ ! -d /mnt/chromeos/removable/RPI-RP2/ ]]; then
@@ -164,7 +164,7 @@ echo done.
 
 Browse projects:
 
-```bash { background=false category=deploy closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=rust-cli-browse promptEnv=true terminalRows=25 }
+```bash { background=false category=browse-rust closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=rust-cli-browse promptEnv=true terminalRows=25 }
 # choose a rust project and browse it
 
 set -e
