@@ -2,6 +2,14 @@
 
 Journaling [Adafruit KB2040 Rust](https://crates.io/crates/adafruit-kb2040) experiments here.
 
+## Links
+
+- [Adafruit KB2040 Overview](https://learn.adafruit.com/adafruit-kb2040)
+- [Adafruit KB2040 Manual](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-kb2040.pdf)
+- [Adafruit KB2040 Pinouts](https://learn.adafruit.com/adafruit-kb2040/pinouts)
+- [Rust Embedded Book](https://docs.rust-embedded.org/book/)
+- [Rust Drivers](https://lib.rs/crates/adafruit-kb2040)
+
 ## Installing Tools
 
 The RP2024 uses a `ARM Cortex-M0+` processor.
