@@ -1,6 +1,6 @@
 ---
 #
-# .github/workflows/spellcheck.yml
+# .github/workflows/spellcheck.yaml
 #
 name: spellcheck
 
