@@ -24,6 +24,7 @@ Cargo.lock
 *.pdb
 
 # TinyGo
+tinygo_*[.]deb
 
 # Python/MicroPython
 .python-version
