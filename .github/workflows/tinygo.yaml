@@ -1,0 +1,131 @@
+---
+#
+# .github/workflows/tinygo.yaml
+#
+name: TinyGo
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+
+env:
+  GH_HEAD_REF: ${{ github.head_ref }}
+  REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  go-change-check:
+    name: Change Check
+    runs-on: 'ubuntu-latest'
+    outputs:
+      docs_changed: ${{ steps.check_file_changed.outputs.docs_changed }}
+    steps:
+      - name: Checkout Repo
+        id: checkout-repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
+          submodules: recursive
+      - name: Get Change List
+        id: check_file_changed
+        run: |
+          # Diff HEAD with the previous commit then output to stdout.
+          printf "=== Which files changed? ===\n"
+          GIT_DIFF="$(git diff --name-only HEAD^ HEAD)"
+          printf "%s\n" "${GIT_DIFF}"
+          printf "\n"
+
+          # Check if the files are present in the changed file list (added, modified, deleted) then output to stdout.
+          HAS_DIFF=false
+          printf "=== Which TinyGo files changed? ===\n"
+          if printf "%s\n" "${GIT_DIFF}" | grep -E '^(.*[.]go|go[.](mod|sum)|.github/workflows/go.yaml|.github/citools/tinygo.*)$'; then
+            HAS_DIFF=true
+          fi
+          printf "\n"
+
+          # Did TinyGo files change?
+          printf "=== Did TinyGo files change? ===\n"
+          printf "%s\n" "${HAS_DIFF}"
+          printf "\n"
+
+          # Set the output named "docs_changed"
+          printf "%s=%s\n" "docs_changed" "${HAS_DIFF}" >> "${GITHUB_OUTPUT}"
+  go_checks:
+    name: Go Checks
+    strategy:
+      matrix:
+        os: ["ubuntu-latest"]
+    runs-on: "${{ matrix.os }}"
+    needs:
+      - go-change-check
+    if: needs.go-change-check.outputs.docs_changed == 'True'
+    steps:
+      - name: Checkout Repo
+        id: checkout-repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
+          submodules: recursive
+      - name: Set up Go (using version in go.mod)
+        id: setup-go
+        uses: actions/setup-go@v3
+        with:
+          go-version-file: './go.work'
+      - name: Show Go version
+        id: go-version
+        run: |
+          go version
+      - name: Install TinyGo Deps
+        id: tinygo-install-deps
+        run: |
+          ./.github/citools/tinygo-install-deps.sh
+      - name: Install TinyGo
+        id: tinygo-install
+        run: |
+          wget -c "$(curl -sSL https://api.github.com/repos/tinygo-org/tinygo/releases/latest | jq -r '.assets[].browser_download_url' | grep 'amd64[.]deb')"
+          sudo dpkg -i "$(curl -sSL https://api.github.com/repos/tinygo-org/tinygo/releases/latest | jq -r '.assets[].name' | grep 'amd64[.]deb')"
+      - name: Show TinyGo version
+        id: tinygo-version
+        run: |
+          tinygo version
+      - name: Checkout PR Branch
+        id: checkout-pr-branch
+        run: |
+          if ! git branch --show-current | grep -q -E '^(main|develop)$'; then
+            git status
+            git fetch origin "${GH_HEAD_REF}"
+            git switch "${GH_HEAD_REF}"
+            git status
+          fi
+      - name: Run go generate
+        id: go-generate
+        run: |
+          # go generate ./...
+          # shellcheck disable=SC2046
+          go generate $(go work edit -json | jq -c -r '[.Use[].DiskPath] | map_values("./" + . + "/...")[]')
+      - name: Install Go Tools
+        id: install-go-tools
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          go install github.com/reviewdog/reviewdog/cmd/reviewdog@latest
+      - name: Testing with revive
+        id: go-test-revive
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          go install github.com/mgechev/revive@latest || go install github.com/mgechev/revive@master
+          revive ./... | reviewdog -tee -efm="%f:%l:%c: %m" -name="revive" -reporter=github-check
+      - name: Testing with ineffassign
+        id: go-test-ineffassign
+        if: matrix.os == 'ubuntu-latest'
+        run: |-
+          go install github.com/gordonklaus/ineffassign@latest
+          # ineffassign ./... | reviewdog -tee -efm="%f:%l:%c: %m" -name="ineffassign" -reporter=github-check
+          # shellcheck disable=SC2046
+          ineffassign $(go work edit -json | jq -c -r '[.Use[].DiskPath] | map_values("./" + . + "/...")[]') | reviewdog -tee -efm="%f:%l:%c: %m" -name="ineffassign" -reporter=github-check

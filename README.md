@@ -4,6 +4,7 @@
 [![markdown](https://github.com/vpayno/adafruit-kb2040-workspace/actions/workflows/markdown.yaml/badge.svg?branch=main)](https://github.com/vpayno/adafruit-kb2040-workspace/actions/workflows/markdown.yaml)
 [![rust](https://github.com/vpayno/adafruit-kb2040-workspace/actions/workflows/rust.yaml/badge.svg?branch=main)](https://github.com/vpayno/adafruit-kb2040-workspace/actions/workflows/rust.yaml)
 [![spellcheck](https://github.com/vpayno/adafruit-kb2040-workspace/actions/workflows/spellcheck.yaml/badge.svg?branch=main)](https://github.com/vpayno/adafruit-kb2040-workspace/actions/workflows/spellcheck.yaml)
+[![tinygo](https://github.com/vpayno/adafruit-kb2040-workspace/actions/workflows/tinygo.yaml/badge.svg?branch=main)](https://github.com/vpayno/adafruit-kb2040-workspace/actions/workflows/tinygo.yaml)
 [![yaml](https://github.com/vpayno/adafruit-kb2040-workspace/actions/workflows/yaml.yaml/badge.svg?branch=main)](https://github.com/vpayno/adafruit-kb2040-workspace/actions/workflows/yaml.yaml)
 
 Personal workspace for learning to use the Adafruit KB2040 with Rust, TinyGo, Arduino and Python.
