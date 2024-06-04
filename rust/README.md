@@ -152,6 +152,11 @@ printf "\n"
 PF="$(gum choose $(ls ../target/thumbv6m-none-eabi/release/*/* | grep -E ".uf2$"))"
 printf "\n"
 
+if [[ -z ${PF} ]]; then
+    printf "ERROR: no UF2 file selected\n"
+    exit 1
+fi
+
 gum format "# Please choose the deploy target directory:"
 printf "\n"
 TD="$(gum choose $(find /mnt/chromeos/removable/ -maxdepth 1 -type d | grep -v -E '^/mnt/chromeos/removable/$'))"
