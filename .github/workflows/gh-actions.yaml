@@ -1,6 +1,6 @@
 ---
 #
-# .github/workflows/gh-actions.yml
+# .github/workflows/gh-actions.yaml
 #
 # https://github.com/reviewdog/action-actionlint
 name: actionlint
@@ -55,7 +55,7 @@ jobs:
       - name: Analyzing the code with actionlint
         run: |
           echo "::add-matcher::.github/actionlint-matcher.json"
-          for f in ./.github/workflows/*yml; do
+          for f in ./.github/workflows/*yaml; do
             {
                 printf "Running: actionlint %s\n" "${f}"
                 tee /tmp/actionlint.out < <(actionlint -oneline "${f}")
