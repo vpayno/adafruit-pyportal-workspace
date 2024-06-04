@@ -25,6 +25,8 @@ Cargo.lock
 
 # TinyGo
 tinygo_*[.]deb
+*.uf2
+*.elf
 
 # Python/MicroPython
 .python-version

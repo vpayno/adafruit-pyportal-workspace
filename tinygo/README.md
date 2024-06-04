@@ -157,3 +157,16 @@ echo done.
 ```
 
 ## Experiments
+
+### Hello World
+
+Using the official [TinyGo Tutorial](https://tinygo.org/docs/tutorials/) for this experiment.
+
+Ok, after a lot of searching for how to use a NeoPixel with TinyGo, got it to work.
+
+- Serial output doesn't work.
+- Using this [pinout](https://learn.adafruit.com/adafruit-kb2040/pinouts) guide.
+
+Current LSP setup, linting, etc, not working very well with TinyGo.
+I got most of my debugging help from `tinygo build`.
+Still, Arduino and TinyGo seems like the best options for me so far.
