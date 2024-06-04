@@ -2,6 +2,14 @@
 
 Journaling [Adafruit KB2040 Arduino](https://learn.adafruit.com/adafruit-kb2040/arduino-ide-setup) experiments here.
 
+## Links
+
+- [Adafruit KB2040 Overview](https://learn.adafruit.com/adafruit-kb2040)
+- [Adafruit KB2040 Manual](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-kb2040.pdf)
+- [Adafruit KB2040 Pinouts](https://learn.adafruit.com/adafruit-kb2040/pinouts)
+- [Arduino Tutorial](https://learn.adafruit.com/adafruit-kb2040/arduino-ide-setup)
+- [Arduino Documentation](https://docs.arduino.cc/)
+
 ## Installing Tools
 
 Install [Arduino](https://docs.arduino.cc/software/ide/) tooling dependencies.
