@@ -1,4 +1,4 @@
-# adafruit-kb2040 CircuitPython experiments
+# Adafruit KB2040 CircuitPython Experiments
 
 Journaling [Adafruit KB2040 CircuitPython](https://learn.adafruit.com/adafruit-kb2040/circuitpython) experiments here.
 
