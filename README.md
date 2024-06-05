@@ -14,12 +14,14 @@ Personal workspace for learning to use the Adafruit KB2040 with Rust, TinyGo, Ar
 - [Adafruit KB2040](https://learn.adafruit.com/adafruit-kb2040)
 
 - [Arduino](https://learn.adafruit.com/adafruit-kb2040/arduino-ide-setup)
+- [CircuitPython](https://learn.adafruit.com/adafruit-kb2040/circuitpython)
 - [Rust](https://crates.io/crates/adafruit-kb2040)
 - [TinyGo](https://tinygo.org/docs/reference/microcontrollers/feather-rp2040/)
 
 ## Experiments
 
 - [Arduino](./arduino/README.md)
+- [CircuitPython](./circuitpython/README.md)
 - [Rust](./rust/README.md)
 - [TinyGo](./tinygo/README.md)
 
