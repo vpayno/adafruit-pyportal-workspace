@@ -245,3 +245,7 @@ printf "\n"
 ```
 
 ## Experiments
+
+### Hello World
+
+Simple program that blinks the NeoPixel and changes it's color randomly.
