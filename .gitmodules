@@ -1,0 +1,3 @@
+[submodule "circuitpython/lib/Adafruit_CircuitPython_NeoPixel"]
+	path = circuitpython/lib/Adafruit_CircuitPython_NeoPixel
+	url = https://github.com/adafruit/Adafruit_CircuitPython_NeoPixel
