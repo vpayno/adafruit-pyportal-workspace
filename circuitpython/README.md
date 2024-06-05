@@ -12,6 +12,10 @@ Journaling [Adafruit KB2040 CircuitPython](https://learn.adafruit.com/adafruit-k
 - [CircuitPython Tutorial](https://learn.adafruit.com/welcome-to-circuitpython)
 - [CircuitPython settings.toml](https://learn.adafruit.com/scrolling-countdown-timer/create-your-settings-toml-file)
 
+## Libraries
+
+- [Adafruit CircuitPython NeoPixel](https://docs.circuitpython.org/projects/neopixel/en/latest/)
+
 ## Editors
 
 The mu editor needs a really old version of Python.
