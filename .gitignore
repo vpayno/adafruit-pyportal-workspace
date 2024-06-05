@@ -28,11 +28,14 @@ tinygo_*[.]deb
 *.uf2
 *.elf
 
-# Python/MicroPython
+# Python/MicroPython/CircuitPython
 .python-version
 .pdm-python
 .venv
 .ccls-cache
+.mypy_cache
+boot_out.txt
+*.UF2
 
 # Arduino
 build
