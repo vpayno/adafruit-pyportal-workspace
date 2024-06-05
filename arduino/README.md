@@ -167,6 +167,6 @@ echo done.
 
 ## Experiments
 
-### Hello World
+### [Hello World](arduino/helloworld/)
 
 This experiment uses the example Adafruit KB2040 Neopixel blink sketch.

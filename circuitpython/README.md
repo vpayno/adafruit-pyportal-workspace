@@ -250,6 +250,6 @@ printf "\n"
 
 ## Experiments
 
-### Hello World
+### [Hello World](circuitpython/helloworld/)
 
 Simple program that blinks the NeoPixel and changes it's color randomly.
