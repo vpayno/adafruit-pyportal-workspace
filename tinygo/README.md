@@ -158,7 +158,7 @@ echo done.
 
 ## Experiments
 
-### [Hello World](tinygo/helloworld/)
+### [Hello World](helloworld/)
 
 Using the official [TinyGo Tutorial](https://tinygo.org/docs/tutorials/) for this experiment.
 

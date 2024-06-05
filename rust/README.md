@@ -214,7 +214,7 @@ All the projects also share the top level `/memory.x` file and
 
 ## Experiments
 
-### [Hello World](rust/helloworld/)
+### [Hello World](helloworld/)
 
 Added the two examples from [rp-hal-boards](https://github.com/rp-rs/rp-hal-boards/) to help with tooling testing.
 The lack of a serial console isn't great for debugging.
