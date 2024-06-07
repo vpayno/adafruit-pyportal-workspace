@@ -45,6 +45,7 @@ printf "\n"
 
 printf "Adding local copy of the arduino cli config.\n"
 arduino-cli config dump | tee .arduino-cli.yaml
+yamlfix --config-file ~/.vim/configs/yamlfix-custom.toml .arduino-cli.yaml
 printf "\n"
 
 if ! go install github.com/arduino/arduino-cli@latest; then
