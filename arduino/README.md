@@ -38,6 +38,15 @@ Install the Arduino CLI:
 
 ```bash { background=false category=setup-arduino closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=arduino-install-cli promptEnv=true terminalRows=10 }
 # install arduino cli
+
+printf "Adding fqbn config.\n"
+printf "%s\n" "rp2040:rp2040:adafruit_kb2040" | tee .arduino-fqbn.conf
+printf "\n"
+
+printf "Adding local copy of the arduino cli config.\n"
+arduino-cli config dump | tee .arduino-cli.yaml
+printf "\n"
+
 if ! go install github.com/arduino/arduino-cli@latest; then
     curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | BINDIR="${HOME}/bin" sh
     arduino-cli version
