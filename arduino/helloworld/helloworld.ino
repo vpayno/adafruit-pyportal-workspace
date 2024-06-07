@@ -9,6 +9,8 @@ Adafruit_NeoPixel pixels(NUMPIXELS, PIN_NEOPIXEL, NEO_GRB + NEO_KHZ800);
 void setup() {
   Serial.begin(115200);
 
+  Serial.println("Hello NeoPixel!");
+
 #if defined(NEOPIXEL_POWER)
   // If this board has a power control pin, we must set it to output and high
   // in order to enable the NeoPixels. We put this in an #if defined so it can
@@ -23,13 +25,18 @@ void setup() {
 
 // the loop routine runs over and over again forever:
 void loop() {
-  // say hi
-  Serial.println("Hello!");
+  long color = random(0xFFFFFF);
 
-  // set color to red
-  pixels.fill(0xFF0000);
+  Serial.print("Color set to: ");
+  Serial.println(color);
+
+  // set color to random choice
+  pixels.fill(color);
   pixels.show();
   delay(500); // wait half a second
+
+  Serial.print("Color set to: ");
+  Serial.println(0x000000);
 
   // turn off
   pixels.fill(0x000000);
