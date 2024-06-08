@@ -206,6 +206,16 @@ sync "${TD}"
 printf "\n"
 ```
 
+## Adafruit Demos
+
+### Quotes
+
+This is the default quote demo that fetches quotes from the internet.
+
+### BLE
+
+This needs the [Android Bluefruit Connect](https://play.google.com/store/apps/details?id=com.adafruit.bluefruit.le.connect) App
+
 ## Experiments
 
 ### [Hello World](helloworld/)
