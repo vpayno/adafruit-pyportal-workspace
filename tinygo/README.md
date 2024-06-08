@@ -1,17 +1,14 @@
-# Adafruit KB2040 TinyGo experiments
+# Adafruit PyPortal TinyGo experiments
 
-Journaling [Adafruit KB2040 TinyGo](https://tinygo.org/docs/reference/microcontrollers/feather-rp2040/) experiments here.
+Journaling [Adafruit PyPortal TinyGo](https://tinygo.org/docs/reference/microcontrollers/pyportal/) experiments here.
 
 Hopefully This will work with the non-feather version of the board.
 
-Hopefully TinyGo will work with the [Adafruit KB2040](https://www.adafruit.com/product/5302) since the documentation says
-it works with the [Adafruit Feather KB2040](https://www.adafruit.com/product/4884).
-
 ## Links
 
-- [Adafruit KB2040 Overview](https://learn.adafruit.com/adafruit-kb2040)
-- [Adafruit KB2040 Manual](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-kb2040.pdf)
-- [Adafruit KB2040 Pinouts](https://learn.adafruit.com/adafruit-kb2040/pinouts)
+- [Adafruit PyPortal Overview](https://learn.adafruit.com/adafruit-pyportal)
+- [Adafruit PyPortal Manual](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-pyportal.pdf)
+- [Adafruit PyPortal Pinouts](https://learn.adafruit.com/adafruit-pyportal/pinouts)
 - [TinyGo Tutorial](https://tinygo.org/docs/tutorials/)
 - [TinyGo Documentation](https://tinygo.org/docs/)
 - [TinyGo Drivers](https://github.com/tinygo-org/drivers)
@@ -59,7 +56,7 @@ go get tinygo.org/x/drivers
 
 Compile and export the the elf and uf2 files to the project directory.
 
-Using target `feather-rp2040` seems to work for the Adafruit KB2040.
+Using target `pyportal` seems to work for the Adafruit PyPortal.
 
 ```bash { background=false category=build-tinygo closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=tinygo-cli-compile promptEnv=true terminalRows=25 }
 # choose an tinygo project and build it
@@ -91,8 +88,8 @@ echo Running: rm -fv "${FN//.go/.elf}" "${FN//.go/.uf2}"
 time rm -fv "${FN//.go/.elf}" "${FN//.go/.uf2}"
 printf "\n"
 
-echo Running: tinygo build -target=feather-rp2040 "${FN}"
-time tinygo build -target=feather-rp2040 "${FN}"
+echo Running: tinygo build -target=pyportal "${FN}"
+time tinygo build -target=pyportal "${FN}"
 printf "\n"
 
 echo Running: elf2uf2-rs "${FN//.go/.elf}" "${FN//.go/.uf2}"
@@ -106,22 +103,22 @@ ls -lhv ./*elf ./*uf2
 printf "\n"
 ```
 
-Before you can update the board, you need to reboot the Adafruit KB2040 into update mode by
+Before you can update the board, you need to reboot the Adafruit PyPortal into update mode by
 
 - holding the `Boot` button
 - pressing the `Reset` button
 - let go of the `Boot` button
-- wait for the `RPI-RP2` drive to show up
+- wait for the `PORTALBOOT` drive to show up
 
 ```bash { background=false category=deploy-tinygo closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=tinygo-cli-upload promptEnv=true terminalRows=25 }
 # choose a tinygo project and deploy it
 
-if [[ ! -d /mnt/chromeos/removable/RPI-RP2/ ]]; then
-    printf "ERROR: You need to share the RPI-RP2 volume with Linux\n"
+if [[ ! -d /mnt/chromeos/removable/PORTALBOOT/ ]]; then
+    printf "ERROR: You need to share the PORTALBOOT volume with Linux\n"
     exit 1
 fi
 
-if [[ ! -f /mnt/chromeos/removable/RPI-RP2/INFO_UF2.TXT ]]; then
+if [[ ! -f /mnt/chromeos/removable/PORTALBOOT/INFO_UF2.TXT ]]; then
     printf "ERROR: Board isn't in UF2 update mode\n"
     exit 1
 fi
@@ -165,7 +162,7 @@ Using the official [TinyGo Tutorial](https://tinygo.org/docs/tutorials/) for thi
 Ok, after a lot of searching for how to use a NeoPixel with TinyGo, got it to work.
 
 - Serial output doesn't work.
-- Using this [pinout](https://learn.adafruit.com/adafruit-kb2040/pinouts) guide.
+- Using this [pinout](https://learn.adafruit.com/adafruit-pyportal/pinouts) guide.
 
 Current LSP setup, linting, etc, not working very well with TinyGo.
 I got most of my debugging help from `tinygo build`.

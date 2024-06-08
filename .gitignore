@@ -36,6 +36,12 @@ tinygo_*[.]deb
 .mypy_cache
 boot_out.txt
 *.UF2
+secrets.py
+secrets.json
+settings.toml
 
 # Arduino
 build
+
+# WipperSnapper
+*.bin
