@@ -1,14 +1,14 @@
-# Adafruit KB2040 Rust Experiments
+# Adafruit PyPortal Rust Experiments
 
-Journaling [Adafruit KB2040 Rust](https://crates.io/crates/adafruit-kb2040) experiments here.
+Journaling [Adafruit PyPortal Rust](https://crates.io/crates/adafruit-pyportal) experiments here.
 
 ## Links
 
-- [Adafruit KB2040 Overview](https://learn.adafruit.com/adafruit-kb2040)
-- [Adafruit KB2040 Manual](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-kb2040.pdf)
-- [Adafruit KB2040 Pinouts](https://learn.adafruit.com/adafruit-kb2040/pinouts)
+- [Adafruit PyPortal Overview](https://learn.adafruit.com/adafruit-pyportal)
+- [Adafruit PyPortal Manual](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-pyportal.pdf)
+- [Adafruit PyPortal Pinouts](https://learn.adafruit.com/adafruit-pyportal/pinouts)
 - [Rust Embedded Book](https://docs.rust-embedded.org/book/)
-- [Rust Drivers](https://lib.rs/crates/adafruit-kb2040)
+- [Rust Drivers](https://lib.rs/crates/adafruit-pyportal)
 
 ## Installing Tools
 
@@ -125,22 +125,22 @@ ls -lhv "${ELF_FILE}"{,.uf2}
 printf "\n"
 ```
 
-Before you can update the board, you need to reboot the Adafruit KB2040 into update mode by
+Before you can update the board, you need to reboot the Adafruit PyPortal into update mode by
 
 - holding the `Boot` button
 - pressing the `Reset` button
 - let go of the `Boot` button
-- wait for the `RPI-RP2` drive to show up
+- wait for the `PORTALBOOT` drive to show up
 
 ```bash { background=false category=deploy-rust closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=rust-cli-upload promptEnv=true terminalRows=25 }
 # choose a rust project and deploy it
 
-if [[ ! -d /mnt/chromeos/removable/RPI-RP2/ ]]; then
-    printf "ERROR: You need to share the RPI-RP2 volume with Linux\n"
+if [[ ! -d /mnt/chromeos/removable/PORTALBOOT/ ]]; then
+    printf "ERROR: You need to share the PORTALBOOT volume with Linux\n"
     exit 1
 fi
 
-if [[ ! -f /mnt/chromeos/removable/RPI-RP2/INFO_UF2.TXT ]]; then
+if [[ ! -f /mnt/chromeos/removable/PORTALBOOT/INFO_UF2.TXT ]]; then
     printf "ERROR: Board isn't in UF2 update mode\n"
     exit 1
 fi
@@ -219,6 +219,6 @@ All the projects also share the top level `/memory.x` file and
 Added the two examples from [rp-hal-boards](https://github.com/rp-rs/rp-hal-boards/) to help with tooling testing.
 The lack of a serial console isn't great for debugging.
 
-#### `adafruit_kb2040_bare_minimum`
+#### `adafruit_pyportal_bare_minimum`
 
 Bare minimum program that does nothing.
