@@ -2,10 +2,10 @@
 package main
 
 import (
+	"crypto/rand"
 	"fmt"
 	"image/color"
 	"machine"
-	"math/rand/v2"
 	"time"
 
 	"tinygo.org/x/drivers/ws2812"

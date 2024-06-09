@@ -13,6 +13,17 @@ Hopefully This will work with the non-feather version of the board.
 - [TinyGo Documentation](https://tinygo.org/docs/)
 - [TinyGo Drivers](https://github.com/tinygo-org/drivers)
 - [TinyGo PyPortal Documentation](https://tinygo.org/docs/reference/microcontrollers/machine/pyportal/)
+- [TinyGo Packages](https://tinygo.org/docs/reference/lang-support/stdlib/)
+
+## Editor
+
+Getting `gopls` working requires the use of [tinygo-edit](https://github.com/sago35/tinygo-edit).
+
+Didn't work with `helix` but it did work with `vim`. It only accepts the command name without file arguments.
+
+```text
+tinygo-edit --editor vim --target pyportal
+```
 
 ## Installing Tools
 
@@ -21,6 +32,8 @@ Install TinyGo depdendencies:
 ```bash { background=false category=setup-tinygo closeTerminalOnSuccess=true excludeFromRunAll=true interactive=true interpreter=bash name=tinygo-install-dependencies promptEnv=true terminalRows=10 }
 # install Atmel AVR microcontroller packages
 sudo nala install -y --no-autoremove avr-libc avra avrdude avrdude-doc avrp dfu-programmer
+
+go install github.com/sago35/tinygo-edit@latest
 ```
 
 Install TinyGo:
@@ -93,6 +106,41 @@ cd "${PN}"
 go mod init "${PN}"
 go get tinygo.org/x/drivers
 ln -sv ../pyportal.json ./pyportal.json
+
+tee -a go.mod <<-EOF
+
+replace (
+    drivers => ../lib/drivers
+	device/arm => ../lib/tinygo/src/device/arm
+	device/arm64 => ../lib/tinygo/src/device/arm64
+	device/asm.go => ../lib/tinygo/src/device/asm.go
+	device/avr => ../lib/tinygo/src/device/avr
+	device/esp => ../lib/tinygo/src/device/esp
+	device/gba => ../lib/tinygo/src/device/gba
+	device/kendryte => ../lib/tinygo/src/device/kendryte
+	device/nrf => ../lib/tinygo/src/device/nrf
+	device/nxp => ../lib/tinygo/src/device/nxp
+	device/riscv => ../lib/tinygo/src/device/riscv
+	device/rp => ../lib/tinygo/src/device/rp
+	device/sam => ../lib/tinygo/src/device/sam
+	device/sifive => ../lib/tinygo/src/device/sifive
+	device/stm32 => ../lib/tinygo/src/device/stm32
+	internal/bytealg => ../lib/tinygo/src/internal/bytealg
+	internal/fuzz => ../lib/tinygo/src/internal/fuzz
+	internal/reflectlite => ../lib/tinygo/src/internal/reflectlite
+	internal/task => ../lib/tinygo/src/internal/task
+	machine/ => ../lib/tinygo/src/machine/
+	os/ => ../lib/tinygo/src/os/
+	reflect/ => ../lib/tinygo/src/reflect/
+	runtime/ => ../lib/tinygo/src/runtime/
+	runtime/interrupt/ => ../lib/tinygo/src/runtime/interrupt/
+	runtime/volatile/ => ../lib/tinygo/src/runtime/volatile/
+	runtime/metrics/ => ../lib/tinygo/src/runtime/metrics/
+	runtime/trace/ => ../lib/tinygo/src/runtime/trace/
+	sync/ => ../lib/tinygo/src/sync/
+	testing/ => ../lib/tinygo/src/testing/
+)
+EOF
 ```
 
 ## TinyGo CLI commands
