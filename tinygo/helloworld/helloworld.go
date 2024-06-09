@@ -2,10 +2,10 @@
 package main
 
 import (
-	"crypto/rand"
 	"fmt"
 	"image/color"
 	"machine"
+	"math/rand"
 	"time"
 
 	"tinygo.org/x/drivers/ws2812"
@@ -34,10 +34,10 @@ func main() {
 			led.Low()
 
 			// instead of 0-255, using 0-128 to dimm the NeoPixel
-			red := uint8(rand.IntN(128))
-			green := uint8(rand.IntN(128))
-			blue := uint8(rand.IntN(128))
-			alpha := uint8(rand.IntN(128))
+			red := uint8(rand.Intn(128))
+			green := uint8(rand.Intn(128))
+			blue := uint8(rand.Intn(128))
+			alpha := uint8(rand.Intn(128))
 
 			ledHigh := []color.RGBA{{R: red, G: green, B: blue, A: alpha}}
 
