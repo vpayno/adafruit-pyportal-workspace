@@ -12,6 +12,7 @@ Hopefully This will work with the non-feather version of the board.
 - [TinyGo Tutorial](https://tinygo.org/docs/tutorials/)
 - [TinyGo Documentation](https://tinygo.org/docs/)
 - [TinyGo Drivers](https://github.com/tinygo-org/drivers)
+- [TinyGo PyPortal Documentation](https://tinygo.org/docs/reference/microcontrollers/machine/pyportal/)
 
 ## Installing Tools
 
@@ -37,6 +38,47 @@ printf "\n"
 
 tinygo version
 printf "\n"
+
+# https://dev.to/sago35/tinygo-vim-gopls-48h1
+cd /usr/local/lib/tinygo/src || exit 1
+for d in device/* internal/* machine/ os/ reflect/ runtime/ runtime/interrupt/ runtime/volatile/ runtime/metrics/ runtime/trace/ sync/ testing/; do
+    [[ -d ${d} ]] && sudo touch "${d}"/go.mod
+done
+sudo tee go.mod <<-EOF
+module tinygo.org/x/drivers
+
+go 1.22
+
+replace (
+EOF
+for d in device/* internal/* machine/ os/ reflect/ runtime/ runtime/interrupt/ runtime/volatile/ runtime/metrics/ runtime/trace/ sync/ testing/; do
+    printf "\t%s => %s\n" "${d}" "/usr/local/lib/tinygo/src/${d}" | sudo tee -a go.mod
+done
+sudo tee -a go.mod <<-EOF
+)
+EOF
+find /usr/local/lib/tinygo/src -type f -name go.mod
+cd -
+
+jq . > pyportal.json <<EOF
+{
+  "inherits": [
+    "atsamd51j20a"
+  ],
+  "build-tags": [
+    "pyportal",
+    "ninafw",
+    "ninafw_machine_init"
+  ],
+  "serial": "usb",
+  "flash-1200-bps-reset": "true",
+  "flash-method": "msd",
+  "serial-port": [
+    "239a:8035",
+    "239a:8036"
+  ]
+}
+EOF
 ```
 
 Setup new TinyGo module:
@@ -50,6 +92,7 @@ mkdir "${PN}"
 cd "${PN}"
 go mod init "${PN}"
 go get tinygo.org/x/drivers
+ln -sv ../pyportal.json ./pyportal.json
 ```
 
 ## TinyGo CLI commands
@@ -88,18 +131,20 @@ echo Running: rm -fv "${FN//.go/.elf}" "${FN//.go/.uf2}"
 time rm -fv "${FN//.go/.elf}" "${FN//.go/.uf2}"
 printf "\n"
 
-echo Running: tinygo build -target=pyportal "${FN}"
-time tinygo build -target=pyportal "${FN}"
+echo Running: tinygo build -target=./pyportal.json -o "${FN%.go}.uf2" "${FN}"
+time tinygo build -target=./pyportal.json -o "${FN%.go}.uf2" "${FN}"
 printf "\n"
 
-echo Running: elf2uf2-rs "${FN//.go/.elf}" "${FN//.go/.uf2}"
-time elf2uf2-rs "${FN//.go/.elf}" "${FN//.go/.uf2}"
+# https://github.com/microsoft/uf2/blob/master/utils/uf2families.json
+# tried base 0x00000000 and 0x00004000, neither works
+# echo Running: uf2conv --base 0x00004000 --family=0x55114460 --output "${FN//.go/.uf2}" "${FN//.go/.elf}"
+# time uf2conv --base 0x00004000 --family=0x55114460 --output "${FN//.go/.uf2}" "${FN//.go/.elf}"
+# printf "\n"
+
+file ./*uf2
 printf "\n"
 
-file ./*elf ./*uf2
-printf "\n"
-
-ls -lhv ./*elf ./*uf2
+ls -lhv ./*uf2
 printf "\n"
 ```
 
@@ -159,7 +204,7 @@ echo done.
 
 Using the official [TinyGo Tutorial](https://tinygo.org/docs/tutorials/) for this experiment.
 
-Ok, after a lot of searching for how to use a NeoPixel with TinyGo, got it to work.
+Ok, after a lot of searching for how to use a NeoPixel with TinyGo, got it to work. Also got the LED working.
 
 - Serial output doesn't work.
 - Using this [pinout](https://learn.adafruit.com/adafruit-pyportal/pinouts) guide.
