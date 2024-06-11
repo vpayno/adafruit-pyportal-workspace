@@ -11,6 +11,8 @@ import (
 	"tinygo.org/x/drivers/ws2812"
 )
 
+// "tinygo.org/x/tinygo/src/machine"
+
 func main() {
 	fmt.Println("Adafruit KB2040 Hello World, NeoPixel Rainbow")
 
